@@ -6,7 +6,7 @@ from docker import Client
 def query_images():
     """ Return a list of images that are used by this machine to execute
     aribitary code. We return the language names. """
-    cli = Client(base_url='unix://var/run/docker.sock')
+    cli = Client(base_url='unix://var/run/docker.sock', version='auto')
     images = cli.images()
 
     # only interested in the tag names
@@ -18,7 +18,7 @@ def query_images():
 
 def execute(workdir, data, stdin):
     # create the client to the docker service
-    cli = Client(base_url='unix://var/run/docker.sock')
+    cli = Client(base_url='unix://var/run/docker.sock', version='auto')
 
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
