@@ -20,6 +20,11 @@ lang_config ={
       "command":"node /mnt/data/input.js",
       "image":"nodejs",
       "ext" : "js"
+   },
+   "go":{
+      "command":"go run /mnt/data/input.go",
+      "image":"go",
+      "ext" : "go"
    }
 }
 
