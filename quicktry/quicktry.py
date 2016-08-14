@@ -12,7 +12,7 @@ lang_config ={
       "ext":"py"
    },
    "python3":{
-      "command":"python /mnt/data/input.py",
+      "command":"python3 /mnt/data/input.py",
       "image":"python3",
       "ext":"py"
    },
