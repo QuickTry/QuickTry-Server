@@ -1,40 +1,38 @@
-# quicktry
+# QuickTry
 
-A flask service and library for sandboxing arbitrary script execution using
+QuickTry is a flask service and library for sandboxing arbitrary script execution using
 docker.
 
-This application was developed for OSHacks @ Github HQ to quickly edit, run,
-and execute code snippets from stackoverflow. Arbitrary script execution is
-less than ideal on most environments, so QuickTry isolates all code compilation
-and interpretation within docker containers. This project contains scripts to
-manage sourced docker images, a library to remotely execute arbitrary code
-safely, and an application to interface with the outside world.
+This application was developed for OSHacks @ Github HQ to quickly read,
+execute, and print code snippets from stackoverflow. This project contains
+scripts to manage sourced docker images, a library to remotely execute
+arbitrary code safely, and a web application to service endpoint.
 
-# Getting started
+## Getting started
 This project depends on docker and python3, and use of virtualenv is
-encouraged. This setup has tested on Mac OSX and Ubuntu 14.04.
+encouraged. This setup was tested on Mac OSX and Ubuntu 14.04.
 
-# Installation
-Create and activate the project environment.
+### Installation
+1. Create and activate the project environment.
 ```
 $ virtualenv -p python3 venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-If this is your first time running the project or if there have been changes to
-the list of supported languages, update the list of docker images.
+2. Update the list of docker images. This should be run if this is your first
+time or if there have been changes to the list of supported languages.
 ```
 $ ./rebuild_docker.sh
 ```
 
-You can verify that everything is working by running a validation script (a
-python script with various tests).
+3. Run the validation script. This lets you know that everything is working
+reasonably well.
 ```
 $ python test.py
 ```
 
-# Running the service
+### Running the service
 We can run the service locally using the following convenience script.
 ```
 $ ./run.sh
@@ -54,6 +52,7 @@ $ flask run
 
 You will now be able to access the locally hosted service by browsing to
 `localhost:5000`. Try creating a request to verify that everything is working.
+
 Using cURL:
 ```
 $ curl -H "Content-Type: application/json" \
@@ -66,16 +65,16 @@ Using httpie:
 $ http GET localhost:5000/run code="print('hello')" lang="python2"
 ```
 
-# Deployment
+## Deployment
 Deployment for this project hasn't been considered as of yet and has only been
 tested locally. Use with caution whenever exposing your service to the world
 wide web, docker isn't the be all end all for task isolation.
 
-## Localhost deployment
+### Localhost deployment
 Follow the `getting started` portion of the README. This should give you an
 instance that is accesible to `localhost:5000`.
 
-## Localhost tunnelling with ngrok
+### Localhost tunnelling with ngrok
 To determine that this application suits your needs, you can
 reproduce a publically accessible instance quickly using ngrok to tunnel
 localhost traffic to a public endpoint.
@@ -92,12 +91,11 @@ $ ./ngrok http 5000
 Port 5000 is the default port for flask development; adjust the value for your
 specific usecase.
 
-
-# Contributing
+## Contributing
 Contributions and suggestions are welcomed and encouraged. Your changes could
 be heard in a pull request (or less).
 
-## Adding support for a new language
+### Adding support for a new language
 Adding a new language to this service is straightforward.
 
 1. Find a dockerfile that supports the new language
@@ -113,10 +111,12 @@ Adding a new language to this service is straightforward.
 Add a new validation test under `test.py` to make sure that the new language
 works as expected.
 
-## Wishlist
+### Wishlist
 QuickTry works for the simple use-case, but could be a more robust platform for
 sandboxed code execution. These are a few things that could be done better.
 
+* Remove all TODOs
+* Increase configurability
 * Automated testing and unit tests
 * Support for more languages
 * Support for more use-cases
@@ -126,7 +126,18 @@ sandboxed code execution. These are a few things that could be done better.
 * Decoupling the management of docker workers from flask service
 * Deployment to a production server
 
-# Docker image sources
+## Credits
+Kudos to the whole QuickTry team at OS Hacks for creating something that just
+works. :thumbsup:
+
+### Related works
+Here are some other projects that were researched as viable canidates for
+QuickTry, but were passed on in favor of a do-it-ourselves solution.
+
+* [remoteinterview/compilebox](https://github.com/remoteinterview/compilebox).
+* [edx/codejail](https://github.com/edx/codejail)
+
+### Dockerfile sources
 The docker images have been sourced from a variety of places, so we have
 aggregated them here so you can view them from the source.
 
@@ -134,6 +145,6 @@ aggregated them here so you can view them from the source.
 * [frol/docker-alpine-python3](https://github.com/frol/docker-alpine-python3)
 * [nodejs/docker-node/6.3](https://github.com/nodejs/docker-node)
 
-# License
+## License
 QuickTry is released under the MIT License.
 
