@@ -3,6 +3,19 @@ import tempfile
 from docker import Client
 
 
+def query_images():
+    """ Return a list of images that are used by this machine to execute
+    aribitary code. We return the language names. """
+    cli = Client(base_url='unix://var/run/docker.sock')
+    images = cli.images()
+
+    # only interested in the tag names
+    tags = [image['RepoTags'][0] for image in images]
+    tags = [tag for tag in tags if tag.startswith('quicktry-')]
+
+    return tags
+
+
 def execute(workdir, data, stdin):
     # create the client to the docker service
     cli = Client(base_url='unix://var/run/docker.sock')
@@ -15,19 +28,27 @@ def execute(workdir, data, stdin):
         with open(os.path.join(dirpath, 'input.py'), 'w') as f:
             f.write(data)
 
+        # define the docker container. mount a temporary directory for the
+        # input file
         host_config = cli.create_host_config(
                 binds=['{}/:/mnt/data'.format(dirpath)])
 
+        # TODO: change the image and command appropriately for the type of
+        # input file that we recieve
+        # TODO: handle stdin
         container = cli.create_container(
                 volumes=['/mnt/data'],
-                image='alpine-python2:latest',
+                image='quicktry-python2:latest',
                 command='python /mnt/data/input.py',
                 host_config=host_config )
 
+        # run the script and read stdout
+        # TODO: error handling
         c_id = container.get('Id')
         response = cli.start(container=c_id)
         output = cli.logs(container=c_id, stdout=True)
-        print(output)
+
+        return output
 
 
 if __name__ == '__main__':
@@ -35,4 +56,5 @@ if __name__ == '__main__':
     script = 'for i in range(10):\n\tprint("hello")'
     stdin = None
 
-    execute(workdir, script, stdin)
+    output = execute(workdir, script, stdin)
+    print(output)
