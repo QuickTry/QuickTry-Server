@@ -117,6 +117,7 @@ works as expected.
 QuickTry works for the simple use-case, but could be a more robust platform for
 sandboxed code execution. These are a few things that could be done better.
 
+* Automated testing and unit tests
 * Support for more languages
 * Support for more use-cases
 * Verify sandboxing properties of docker in-depth
@@ -132,3 +133,7 @@ aggregated them here so you can view them from the source.
 * [jfloff/alpine-python](https://github.com/jfloff/alpine-python)
 * [frol/docker-alpine-python3](https://github.com/frol/docker-alpine-python3)
 * [nodejs/docker-node/6.3](https://github.com/nodejs/docker-node)
+
+# License
+QuickTry is released under the MIT License.
+
