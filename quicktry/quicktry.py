@@ -1,6 +1,8 @@
+""" A set of functions to interact with code execution in an isolated docker
+sandbox."""
+from docker import Client
 import os
 import tempfile
-from docker import Client
 
 
 def query_images():
@@ -22,8 +24,6 @@ def execute(workdir, data, stdin):
 
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
-        print(dirpath)
-
         # create the input file
         with open(os.path.join(dirpath, 'input.py'), 'w') as f:
             f.write(data)
@@ -51,12 +51,3 @@ def execute(workdir, data, stdin):
         output = cli.logs(container=c_id, stdout=True)
 
         return output
-
-
-if __name__ == '__main__':
-    workdir = os.path.join(os.getcwd(), 'tmp')
-    script = 'for i in range(10):\n\tprint("hello")'
-    stdin = None
-
-    output = execute(workdir, script, stdin)
-    print(output)
