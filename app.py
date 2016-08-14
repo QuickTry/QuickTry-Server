@@ -23,7 +23,8 @@ def run():
     results = quicktry.execute(
             os.path.join(os.getcwd(), 'tmp'),
             content.get('code'),
-            None).decode()
+            "",
+            content.get('lang', 'python2')).decode()
 
     print(results)
     return jsonify(results)
