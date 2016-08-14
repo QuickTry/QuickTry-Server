@@ -4,7 +4,7 @@ from docker import Client
 import os
 import tempfile
 
-#creating mapping for languages
+# create mapping for languages
 lang_config ={
    "python2":{
       "command":"python /mnt/data/input.py",
@@ -45,10 +45,15 @@ def execute(workdir, data, stdin, language):
     # create the client to the docker service
     cli = Client(base_url='unix://var/run/docker.sock', version='auto')
 
+    options = lang_config.get(language)
+    if not options:
+        print("{} does not exist".format(language))
+        return ""
+
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
-        input_file="input.{}".format(lang_config[language]["ext"])
+        input_file="input.{}".format(options["ext"])
         with open(os.path.join(dirpath, input_file), 'w') as f:
             f.write(data.encode().decode('unicode_escape'))
 
@@ -57,13 +62,12 @@ def execute(workdir, data, stdin, language):
         host_config = cli.create_host_config(
                 binds=['{}/:/mnt/data'.format(dirpath)])
 
-        image_name ="quicktry-{}:latest".format(lang_config[language]["image"])
         # TODO: handle stdin
         container = cli.create_container(
-                volumes=['/mnt/data'],
-                image= image_name,
-                command =lang_config[language]["command"],
-                host_config=host_config )
+                volumes = ['/mnt/data'],
+                host_config = host_config,
+                image = "quicktry-{}:latest".format(options['image']),
+                command = options['command'])
 
         # run the script and read stdout
         # TODO: error handling
