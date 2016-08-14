@@ -20,7 +20,7 @@ def query_images():
     return tags
 
 
-def execute(workdir, data, stdin):
+def execute(workdir, data, stdin, language):
     # create the client to the docker service
     cli = Client(base_url='unix://var/run/docker.sock', version='auto')
 
