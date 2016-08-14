@@ -5,8 +5,8 @@ import os
 import tempfile
 
 #creating mapping for languages
-lang_config ={  
-   "python2":{ 
+lang_config ={
+   "python2":{
       "command":"python /mnt/data/input.py",
       "image":"python2",
       "ext":"py"
@@ -43,8 +43,8 @@ def execute(workdir, data, stdin, language):
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
-        input_file="input" + lang_config[language]["ext"]
-        with open(os.path.join(dirpath, inpute_file), 'w') as f:
+        input_file="input.{}".format(lang_config[language]["ext"])
+        with open(os.path.join(dirpath, input_file), 'w') as f:
             f.write(data.encode().decode('unicode_escape'))
 
         # define the docker container. mount a temporary directory for the
@@ -52,23 +52,11 @@ def execute(workdir, data, stdin, language):
         host_config = cli.create_host_config(
                 binds=['{}/:/mnt/data'.format(dirpath)])
 
-        # TODO: change the image and command appropriately for the type of
-        # input file that we recieve
-        
-        #args=data[language]
-        #options=  {
-        #    volumes=
-        #    host_config
-        #}
-        #options.update(args)
-        #create_container(options)
-
-
         image_name ="quicktry-{}:latest".format(lang_config[language]["image"])
         # TODO: handle stdin
         container = cli.create_container(
                 volumes=['/mnt/data'],
-                image= image_name,    
+                image= image_name,
                 command =lang_config[language]["command"],
                 host_config=host_config )
 
