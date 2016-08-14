@@ -16,7 +16,7 @@ lang_config ={
       "image":"python34",
       "ext":"py"
    },
-   "nodejs2":{
+   "nodejs":{
       "command":"node /mnt/data/input.js",
       "image":"nodejs",
       "ext" : "js"

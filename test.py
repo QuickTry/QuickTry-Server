@@ -7,7 +7,7 @@ stdin = None
 language="python2"
 
 script2="console.log('hello world');"
-language2="nodejs2" 
+language2="nodejs"
 
 output = quicktry.execute(workdir, script2, stdin, language2)
 print(output)
