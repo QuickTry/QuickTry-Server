@@ -4,9 +4,12 @@ import os
 workdir = os.path.join(os.getcwd(), 'tmp')
 script = 'for i in range(10):\n\tprint("hello")'
 stdin = None
-language="python27"
+language="python2"
 
-output = quicktry.execute(workdir, script, stdin, language)
+script2="console.log('hello world');"
+language2="nodejs2" 
+
+output = quicktry.execute(workdir, script2, stdin, language2)
 print(output)
 
 print(quicktry.query_images())

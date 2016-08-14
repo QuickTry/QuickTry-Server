@@ -6,13 +6,20 @@ import tempfile
 
 #creating mapping for languages
 lang_config ={  
-   "python27":{  
+   "python2":{ 
       "command":"python /mnt/data/input.py",
-      "image":"python27"
+      "image":"python2",
+      "ext":"py"
    },
-   "python34":{  
+   "python34":{
       "command":"python /mnt/data/input.py",
-      "image":"python34"
+      "image":"python34",
+      "ext":"py"
+   },
+   "nodejs2":{
+      "command":"node /mnt/data/input.js",
+      "image":"nodejs",
+      "ext" : "js"
    }
 }
 
@@ -36,7 +43,8 @@ def execute(workdir, data, stdin, language):
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
-        with open(os.path.join(dirpath, 'input.py'), 'w') as f:
+        inputfile="input" + lang_config[language]["ext"]
+        with open(os.path.join(dirpath, 'input.js'), 'w') as f:
             f.write(data)
 
         # define the docker container. mount a temporary directory for the
@@ -57,7 +65,6 @@ def execute(workdir, data, stdin, language):
 
 
         image_name ="quicktry-{}:latest".format(lang_config[language]["image"])
-        print (image_name)
         # TODO: handle stdin
         container = cli.create_container(
                 volumes=['/mnt/data'],
