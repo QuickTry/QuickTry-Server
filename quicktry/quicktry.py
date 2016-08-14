@@ -43,9 +43,9 @@ def execute(workdir, data, stdin, language):
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
-        inputfile="input" + lang_config[language]["ext"]
-        with open(os.path.join(dirpath, 'input.js'), 'w') as f:
-            f.write(data)
+        input_file="input" + lang_config[language]["ext"]
+        with open(os.path.join(dirpath, inpute_file), 'w') as f:
+            f.write(data.encode().decode('unicode_escape'))
 
         # define the docker container. mount a temporary directory for the
         # input file
