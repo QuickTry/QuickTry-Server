@@ -8,7 +8,15 @@ app.config.from_object(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    unedited_list = quicktry.query_images()
+    option_list=[]
+    for val in unedited_list:
+        first = val.index('-')+1
+        end = val.index(':')
+        val=val[first:end]
+        option_list.append(val)
+
+    return render_template('index.html', option_list=option_list)
 
 
 @app.route('/run', methods=['GET', 'POST'])
@@ -35,3 +43,13 @@ def run():
 def images():
     images = quicktry.query_images()
     return jsonify(images)
+
+@app.route('/ajaxdata')
+def ajaxdata():
+    images = quicktry.query_images()
+    imagesString= ""
+    for val in images:
+        option = "<option value='' id=''> val </option>"
+        print (option)
+        imagesString=imagesString + option
+    return imagesString
