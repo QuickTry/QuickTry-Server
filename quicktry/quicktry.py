@@ -39,14 +39,18 @@ def execute(workdir, data, stdin):
         container = cli.create_container(
                 volumes=['/mnt/data'],
                 image='quicktry-python2:latest',
-                command='python /mnt/data/input.py',
+                command='python /mnt/data/input.py > /mnt/data/output.txt',
                 host_config=host_config )
 
         # run the script and read stdout
         # TODO: error handling
         c_id = container.get('Id')
-        response = cli.start(container=c_id)
+        cli.start(container=c_id)
+        cli.wait(container=c_id)
+
         output = cli.logs(container=c_id, stdout=True)
+
+        print(os.listdir(dirpath))
 
         return output
 
