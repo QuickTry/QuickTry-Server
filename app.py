@@ -10,24 +10,25 @@ app.config.from_object(__name__)
 def index():
     return render_template('index.html')
 
+
 @app.route('/run', methods=['GET', 'POST'])
 def run():
     """ Expects a json dictionary that specifies the language, code snippet, any
     expected input for the snippet. """
     content = request.get_json()
     if content is None:
-        return 'empty'
+        return jsonify({'status': -1, 'output': 'no input'})
 
     print(content)
 
-    results = quicktry.execute(
+    err, output = quicktry.execute(
             os.path.join(os.getcwd(), 'tmp'),
             content.get('code'),
-            "",
-            content.get('lang', 'python2')).decode()
+            content.get('params'),
+            content.get('lang').lower())
 
-    print(results)
-    return jsonify(results)
+    print("error code {}\n{}".format(err, output))
+    return jsonify({'status': err, 'output': output})
 
 
 @app.route('/images')

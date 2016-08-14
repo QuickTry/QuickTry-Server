@@ -47,8 +47,8 @@ def execute(workdir, data, stdin, language):
 
     options = lang_config.get(language)
     if not options:
-        print("{} does not exist".format(language))
-        return ""
+        msg = "{} is not a supported language".format(language)
+        return -1, msg
 
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
@@ -73,8 +73,9 @@ def execute(workdir, data, stdin, language):
         # TODO: error handling
         c_id = container.get('Id')
         cli.start(container=c_id)
-        cli.wait(container=c_id)
 
-        output = cli.logs(container=c_id, stdout=True)
+        # wait on the container to finish, 30 second timeout
+        ret = cli.wait(container=c_id, timeout=30)
+        output = cli.logs(container=c_id, stdout=True).decode()
 
-        return output
+        return ret, output
