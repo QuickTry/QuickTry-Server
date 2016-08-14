@@ -1,13 +1,14 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from quicktry import quicktry
 import os
 
 app = Flask(__name__)
+app.config.from_object(__name__)
 
 
 @app.route('/')
 def index():
-    return 'suh'
+    return render_template('index.html')
 
 @app.route('/run', methods=['GET', 'POST'])
 def run():
@@ -21,9 +22,10 @@ def run():
 
     results = quicktry.execute(
             os.path.join(os.getcwd(), 'tmp'),
-            content['data'],
+            content.get('code'),
             None).decode()
 
+    print(results)
     return jsonify(results)
 
 
