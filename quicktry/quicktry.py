@@ -3,9 +3,18 @@ sandbox."""
 from docker import Client
 import os
 import tempfile
-import json 
-import sys
 
+#creating mapping for languages
+lang_config ={  
+   "python27":{  
+      "command":"python /mnt/data/input.py",
+      "image":"python27"
+   },
+   "python34":{  
+      "command":"python /mnt/data/input.py",
+      "image":"python34"
+   }
+}
 
 def query_images():
     """ Return a list of images that are used by this machine to execute
@@ -24,17 +33,6 @@ def execute(workdir, data, stdin, language):
     # create the client to the docker service
     cli = Client(base_url='unix://var/run/docker.sock', version='auto')
 
-    #creating mapping for languages
-    data = {"python27": 
-                {"command": "python /mnt/data/input.py", 
-                 "image": "python27"},
-            "python34": 
-                {"command": "python /mnt/data/input.py", 
-                 "image": "python34"}
-                 }
-    json_string = json.dumps(data)
-    resp= json.loads(json_string)
-
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
@@ -48,11 +46,23 @@ def execute(workdir, data, stdin, language):
 
         # TODO: change the image and command appropriately for the type of
         # input file that we recieve
+        
+        #args=data[language]
+        #options=  {
+        #    volumes=
+        #    host_config
+        #}
+        #options.update(args)
+        #create_container(options)
+
+
+        image_name ="quicktry-{}:latest".format(lang_config[language]["image"])
+        print (image_name)
         # TODO: handle stdin
         container = cli.create_container(
                 volumes=['/mnt/data'],
-                image= 'quicktry-' + resp[language][image] + ':latest'     #'quicktry-python27:latest',
-                command= resp[language][command]         #'python /mnt/data/input.py',
+                image= image_name,    
+                command =lang_config[language]["command"],
                 host_config=host_config )
 
         # run the script and read stdout
