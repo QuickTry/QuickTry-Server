@@ -38,7 +38,7 @@ def execute(workdir, data, stdin):
         # TODO: handle stdin
         container = cli.create_container(
                 volumes=['/mnt/data'],
-                image='quicktry-python2:latest',
+                image='quicktry-python27:latest',
                 command='python /mnt/data/input.py',
                 host_config=host_config )
 

@@ -7,3 +7,5 @@ stdin = None
 
 output = quicktry.execute(workdir, script, stdin)
 print(output)
+
+print(quicktry.query_images())
