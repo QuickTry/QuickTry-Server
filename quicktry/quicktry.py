@@ -26,7 +26,7 @@ def execute(workdir, data, stdin):
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
         with open(os.path.join(dirpath, 'input.py'), 'w') as f:
-            f.write(data)
+            f.write(data.encode().decode('unicode_escape'))
 
         # define the docker container. mount a temporary directory for the
         # input file
