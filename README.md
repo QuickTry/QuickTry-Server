@@ -17,3 +17,4 @@ script.
 * [jfloff/alpine-python](https://github.com/jfloff/alpine-python)
 * [frol/docker-alpine-python3](https://github.com/frol/docker-alpine-python3)
 * [nodejs/docker-node/6.3](https://github.com/nodejs/docker-node)
+* [frol/docker-alpine-go](https://github.com/frol/docker-alpine-go)
