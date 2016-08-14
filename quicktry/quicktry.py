@@ -11,15 +11,20 @@ lang_config ={
       "image":"python2",
       "ext":"py"
    },
-   "python34":{
+   "python3":{
       "command":"python /mnt/data/input.py",
-      "image":"python34",
+      "image":"python3",
       "ext":"py"
    },
    "nodejs":{
       "command":"node /mnt/data/input.js",
       "image":"nodejs",
       "ext" : "js"
+   },
+   "go":{
+      "command":"go run /mnt/data/input.go",
+      "image":"go",
+      "ext" : "go"
    }
 }
 
