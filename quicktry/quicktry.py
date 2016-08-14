@@ -12,7 +12,7 @@ lang_config ={
       "ext":"py"
    },
    "python3":{
-      "command":"python /mnt/data/input.py",
+      "command":"python3 /mnt/data/input.py",
       "image":"python3",
       "ext":"py"
    },
@@ -25,6 +25,11 @@ lang_config ={
       "command":"go run /mnt/data/input.go",
       "image":"go",
       "ext" : "go"
+   },
+   "java8":{
+      "command":"java /mnt/data/input.java",
+      "image":"java8",
+      "ext" : "java"
    }
 }
 

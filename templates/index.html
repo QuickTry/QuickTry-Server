@@ -1,11 +1,38 @@
 <!doctype html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <title>QuickTry</title>
 
 <form id="quicktry-form" action="#">
     Code:<br>
-    <input type="text"><br>
-    <input type="dropdown"></br>
+    <input id="code" name="code" type="text" style="width:500px; height: 300px;"/><br>
+    <select name="language" id="language"><br> 
+    {% for o in option_list %}
+       <option name = "{{o}}"> {{o}} </option>
+       {% endfor %}
+    </select>
+
     <input type="submit" value="Submit">
 </form>
+
+
+<script type="text/javascript" 
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //alert("I am an alert box!");
+    
+	function getLanguages(){
+		$.ajax({
+		   type: "GET",
+		   url: "ajaxdata.py",
+		   success: function(data){
+			$("#language").html(data);
+ 			alert ("you did it");
+		   }
+		});
+    	} 
+	getLanguages();
+    });
+
+</script>
