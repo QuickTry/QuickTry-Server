@@ -3,6 +3,8 @@ sandbox."""
 from docker import Client
 import os
 import tempfile
+import json 
+import sys
 
 
 def query_images():
@@ -22,6 +24,17 @@ def execute(workdir, data, stdin):
     # create the client to the docker service
     cli = Client(base_url='unix://var/run/docker.sock', version='auto')
 
+    #creating mapping for languages
+    data = {"python27": 
+                {"command": "python /mnt/data/input.py", 
+                 "image": "python27"},
+            "python34": 
+                {"command": "python /mnt/data/input.py", 
+                 "image": "python34"}
+                 }
+    json_string = json.dumps(data)
+    resp= json.loads(json_string)
+
     # generate the temporary path for the worker
     with tempfile.TemporaryDirectory(dir=workdir) as dirpath:
         # create the input file
@@ -38,8 +51,8 @@ def execute(workdir, data, stdin):
         # TODO: handle stdin
         container = cli.create_container(
                 volumes=['/mnt/data'],
-                image='quicktry-python27:latest',
-                command='python /mnt/data/input.py',
+                image= 'quicktry-' + resp[language][image] + ':latest'     #'quicktry-python27:latest',
+                command= resp[language][command]         #'python /mnt/data/input.py',
                 host_config=host_config )
 
         # run the script and read stdout
