@@ -30,8 +30,4 @@ script_java='System.out.println("Hello World")'
 output_java = quicktry.execute(workdir,script_java, stdin, "java")
 print (output_java)
 
-
-
-
-
 print(quicktry.query_images())
