@@ -1,0 +1,14 @@
+languages:
+  python2:
+    command:  python /mnt/data/input.py
+    ext:      py
+  python3:
+    command:  python3 /mnt/data/input.py
+    ext:      py
+  nodejs:
+    command:  node /mnt/data/input.js
+    ext:      js
+  go:
+    command:  go run /mnt/data/input.go
+    ext:      go
+

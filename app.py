@@ -1,14 +1,20 @@
 from flask import Flask, jsonify, request, render_template
 from quicktry import quicktry
 import os
+import yaml
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+# Load the connection to the docker manager
+with open('languages.yml') as f:
+    config = yaml.load(f)
+qt = quicktry.QuickTry(config['languages'])
+
 
 @app.route('/')
 def index():
-    unedited_list = quicktry.query_images()
+    unedited_list = qt.query_images()
     option_list=[]
     for val in unedited_list:
         first = val.index('-')+1
@@ -29,11 +35,11 @@ def run():
 
     print(content)
 
-    err, output = quicktry.execute(
-            os.path.join(os.getcwd(), 'tmp'),
+    err, output = qt.execute(
+            content.get('lang').lower(),
             content.get('code'),
             content.get('params'),
-            content.get('lang').lower())
+            os.path.join(os.getcwd(), 'tmp'))
 
     print("error code {}\n{}".format(err, output))
     return jsonify({'status': err, 'output': output})
@@ -41,12 +47,12 @@ def run():
 
 @app.route('/images')
 def images():
-    images = quicktry.query_images()
+    images = qt.query_images()
     return jsonify(images)
 
 @app.route('/ajaxdata')
 def ajaxdata():
-    images = quicktry.query_images()
+    images = qt.query_images()
     imagesString= ""
     for val in images:
         option = "<option value='' id=''> val </option>"
