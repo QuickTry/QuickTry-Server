@@ -3,14 +3,16 @@ from quicktry.sandbox import Sandbox
 import yaml
 
 
+# Create the flask application
+app = Flask(__name__)
+app.config.from_envvar('QUICKTRY_SETTINGS')
+
+
 # Load the connection to the docker manager
-with open('languages.yml') as f:
+with open(app.config['LANGUAGE_CONFIG']) as f:
     config = yaml.load(f)
 sandbox = Sandbox(config['languages'])
 
 
-# Create the flask application
-app = Flask(__name__)
-app.config.from_object(__name__)
-
 import quicktry.views
+import quicktry.commands
