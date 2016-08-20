@@ -38,7 +38,7 @@ We can run the service locally using the following convenience script.
 $ ./run.sh
 ```
 Note that if you are running on linux, you may need administrative access to
-access the docker socket in the quicktry library. Verify that the script is
+access the docker socket in the sandbox. Verify that the script is
 acceptable to run as root, and prefix the above command with `sudo`.
 
 Alternatively, if you prefer to run things by hand, make sure that the
@@ -46,7 +46,8 @@ FLASK_APP variable is set to the top level app.py and a temporary work
 directory is declared (currently hardcoded to be tmp in app.py).
 ```
 $ mkdir tmp                 # this may go away
-$ export FLASK_APP=app.py
+$ export PYTHONPATH=`pwd`   # flask cli needs the relative path to quicktry
+$ export FLASK_APP=quicktry
 $ flask run
 ```
 
@@ -92,8 +93,7 @@ Port 5000 is the default port for flask development; adjust the value for your
 specific usecase.
 
 ## Contributing
-Contributions and suggestions are welcomed and encouraged. Your changes could
-be heard in a pull request (or less).
+Contributions and suggestions are welcomed and encouraged.
 
 ### Adding support for a new language
 Adding a new language to this service is straightforward.
@@ -103,7 +103,7 @@ Adding a new language to this service is straightforward.
 2. Update the `docker images`
     * run `./rebuild_docker.sh`
 3. Register the new language with quicktry
-    * Add a new entry to `lang_config` with the following information:
+    * Add a new entry to `languages.yml` with the following information:
         - language name
         - command to run
         - the file extension
@@ -118,8 +118,6 @@ sandboxed code execution. These are a few things that could be done better.
 * Remove all TODOs
 * Increase configurability
 * Automated testing and unit tests
-* Support for more languages
-* Support for more use-cases
 * Verify sandboxing properties of docker in-depth
 * Throttling and rate-limiting of requests to prevent service outages
 * Creating a capped worker pool and request queue
