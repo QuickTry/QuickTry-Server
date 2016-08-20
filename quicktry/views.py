@@ -1,20 +1,11 @@
-from flask import Flask, jsonify, request, render_template
-from quicktry import quicktry
+from quicktry import app, sandbox
+from flask import jsonify, request, render_template
 import os
-import yaml
-
-app = Flask(__name__)
-app.config.from_object(__name__)
-
-# Load the connection to the docker manager
-with open('languages.yml') as f:
-    config = yaml.load(f)
-qt = quicktry.QuickTry(config['languages'])
 
 
 @app.route('/')
 def index():
-    unedited_list = qt.query_images()
+    unedited_list = sandbox.query_images()
     option_list=[]
     for val in unedited_list:
         first = val.index('-')+1
@@ -35,7 +26,7 @@ def run():
 
     print(content)
 
-    err, output = qt.execute(
+    err, output = sandbox.execute(
             content.get('lang').lower(),
             content.get('code'),
             content.get('params'),
@@ -47,12 +38,17 @@ def run():
 
 @app.route('/images')
 def images():
-    images = qt.query_images()
-    return jsonify(images)
+    return jsonify(sandbox.query_images())
+
+
+@app.route('/languages')
+def languages():
+    return jsonify(sandbox.get_languages())
+
 
 @app.route('/ajaxdata')
 def ajaxdata():
-    images = qt.query_images()
+    images = sandbox.query_images()
     imagesString= ""
     for val in images:
         option = "<option value='' id=''> val </option>"

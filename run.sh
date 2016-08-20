@@ -26,6 +26,6 @@ if [ ! -d "$tmpdir" ]; then
 fi
 
 # run the flask application
-export FLASK_APP=app.py
+export FLASK_APP=quicktry
 export FLASK_DEBUG=1
 python -m flask run

@@ -4,7 +4,7 @@ from docker import Client
 import os
 import tempfile
 
-class QuickTry:
+class Sandbox:
 
     def __init__(self, config, docker_url='unix://var/run/docker.sock'):
         # maps a language to a command and filename extension
@@ -23,7 +23,7 @@ class QuickTry:
         return tags
 
     def get_languages(self):
-        return self.config.keys()
+        return list(self.config.keys())
 
     def execute(self, language, data, stdin, workdir):
         options = self.config.get(language)
@@ -58,7 +58,7 @@ class QuickTry:
             try:
                 ret = self.cli.wait(container=c_id, timeout=30)
             except:
-                cli.stop(container=c_id)
+                self.cli.stop(container=c_id)
                 return -1, "execution timed out after 30s"
 
             output = self.cli.logs(container=c_id, stdout=True).decode()
