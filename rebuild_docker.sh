@@ -6,5 +6,5 @@ for path in docker-images/*; do
 
     # building docker images
     dirname=`basename ${path}`
-    docker build ${path} -t quicktry-${dirname}:latest
+    docker build -t quicktry-${dirname}:latest ${path}
 done
