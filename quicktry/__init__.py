@@ -15,4 +15,3 @@ sandbox = Sandbox(config['languages'])
 
 
 import quicktry.views
-import quicktry.commands
