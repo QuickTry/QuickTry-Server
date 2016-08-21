@@ -27,4 +27,4 @@ fi
 
 # run the flask application
 . exports.sh
-python -m flask run
+python wsgi.py

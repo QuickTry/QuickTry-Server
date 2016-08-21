@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve quicktry
+After=network.target
+
+[Service]
+User=quicktry
+Group=www-data
+WorkingDirectory=/home/quicktry/QuickTry-Server
+Environment="PATH=/home/quicktry/QuickTry-Server/venv/bin"
+ExecStart=/home/quicktry/QuickTry-Server/venv/bin/uwsgi --ini production/myproject.ini
+
+[Install]
+WantedBy=multi-user.target
