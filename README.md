@@ -67,17 +67,17 @@ $ http GET localhost:5000/run code="print('hello')" lang="python2"
 ```
 
 ## Deployment
-Deployment for this project hasn't been considered as of yet and has only been
-tested locally. Use with caution whenever exposing your service to the world
-wide web, docker isn't the be all end all for task isolation.
+Testing this project locally is straightforward. Use with caution whenever
+exposing your service to the world wide web, docker isn't the be all end all
+for task isolation.
 
 ### Localhost deployment
 Follow the `getting started` portion of the README. This should give you an
-instance that is accesible to `localhost:5000`.
+instance that is accessible to `localhost:5000`.
 
 ### Localhost tunnelling with ngrok
 To determine that this application suits your needs, you can
-reproduce a publically accessible instance quickly using ngrok to tunnel
+reproduce a publicly accessible instance quickly using ngrok to tunnel
 localhost traffic to a public endpoint.
 
 First set up ngrok by following the [getting started
@@ -90,7 +90,12 @@ $ ./ngrok http 5000
 ```
 
 Port 5000 is the default port for flask development; adjust the value for your
-specific usecase.
+specific use case.
+
+### uWSGI and Nginx
+Refer to the README in the `production/` folder. This provides a systemd Unit
+ file, uWSGI configuration, and an Nginx block configuration that can be
+ copied to their proper locations.
 
 ## Contributing
 Contributions and suggestions are welcomed and encouraged.
@@ -116,7 +121,6 @@ QuickTry works for the simple use-case, but could be a more robust platform for
 sandboxed code execution. These are a few things that could be done better.
 
 * Remove all TODOs
-* Increase configurability
 * Automated testing and unit tests
 * Verify sandboxing properties of docker in-depth
 * Throttling and rate-limiting of requests to prevent service outages

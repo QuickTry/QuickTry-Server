@@ -7,7 +7,8 @@ User=quicktry
 Group=www-data
 WorkingDirectory=/home/quicktry/QuickTry-Server
 Environment="PATH=/home/quicktry/QuickTry-Server/venv/bin"
-ExecStart=/home/quicktry/QuickTry-Server/venv/bin/uwsgi --ini production/myproject.ini
+Environment="QUICKTRY_SETTINGS=/home/quicktry/QuickTry-Server/config.cfg"
+ExecStart=/home/quicktry/QuickTry-Server/venv/bin/uwsgi --ini production/quicktry.ini
 
 [Install]
 WantedBy=multi-user.target
