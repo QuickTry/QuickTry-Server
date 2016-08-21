@@ -1,0 +1,2 @@
+recursive-include quicktry/templates/*
+recursive-include docker-images/*
