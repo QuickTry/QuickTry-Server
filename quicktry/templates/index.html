@@ -25,13 +25,19 @@
 <script type="text/javascript">
   $(function() {
     $("#submit_button").click(function(){
-      $.getJSON($SCRIPT_ROOT + '/ajaxdata', {
-	code: $('input[name="code"]').val(),
-	language: $('#language').find(":selected").text()
-      }, function(data) {
-        $("#result").text(data.result);
-      });
-      return false;
+	$.ajax({
+		type:"POST",
+		url: $SCRIPT_ROOT + '/run',
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		data: JSON.stringify ({
+			code: $('input[name="code"]').val(),
+        		lang: $('#language').find(":selected").text()}),
+		success: function(data) {
+			$("#result").text(data.output);
+		}
+	});
+	return false;
     });
   });
 </script>
