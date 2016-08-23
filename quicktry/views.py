@@ -1,7 +1,7 @@
 from quicktry import app, sandbox
 from flask import jsonify, request, render_template
 import os
-
+import yaml
 
 @app.route('/')
 def index():
@@ -44,14 +44,3 @@ def images():
 @app.route('/languages')
 def languages():
     return jsonify(sandbox.get_languages())
-
-
-@app.route('/ajaxdata')
-def ajaxdata():
-    images = sandbox.query_images()
-    imagesString= ""
-    for val in images:
-        option = "<option value='' id=''> val </option>"
-        print (option)
-        imagesString=imagesString + option
-    return imagesString
