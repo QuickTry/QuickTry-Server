@@ -1,7 +1,7 @@
 from quicktry import app, sandbox
 from flask import jsonify, request, render_template
 import os
-
+import yaml
 
 @app.route('/')
 def index():
@@ -48,10 +48,16 @@ def languages():
 
 @app.route('/ajaxdata')
 def ajaxdata():
-    images = sandbox.query_images()
-    imagesString= ""
-    for val in images:
-        option = "<option value='' id=''> val </option>"
-        print (option)
-        imagesString=imagesString + option
-    return imagesString
+    language = request.args.get('language')
+    code = request.args.get('code')
+
+    err, output = sandbox.execute(
+            language,
+            code,
+            None,
+            os.path.join(os.getcwd(), 'tmp'))
+
+    #print("error code {}\n{}".format(err, output))
+    #return jsonify({'status': err, 'output': output})
+    return jsonify(result=output)
+
