@@ -1,19 +1,12 @@
 from quicktry import app, sandbox
 from flask import jsonify, request, render_template
 import os
-import yaml
+
 
 @app.route('/')
 def index():
-    unedited_list = sandbox.query_images()
-    option_list=[]
-    for val in unedited_list:
-        first = val.index('-')+1
-        end = val.index(':')
-        val=val[first:end]
-        option_list.append(val)
-
-    return render_template('index.html', option_list=option_list)
+    options = sandbox.get_languages()
+    return render_template('index.html', option_list=options)
 
 
 @app.route('/run', methods=['GET', 'POST'])
